@@ -1,6 +1,12 @@
 from itertools import chain, izip
 
 """
+A small module with functions based on idioms I learned
+while programming Haskell and other languages.
+
+"""
+
+"""
 Return the size of the shortest list in a list of lists
 """
 def shortest(lists):
@@ -43,7 +49,7 @@ length 0-size
 """
 def partition(lst, size):
     for item, pos in izip(lst, count(0, size)):
-        items = lst[pos:pos + size] 
+        items = lst[pos:pos + size]
         if items:
             yield items
         else:
@@ -54,8 +60,5 @@ if __name__ == '__main__':
     lst2 = [4,5,6]
     lst3 = [7,8,9]
 
-    # for x,y in zip(xrange(100), repeat(1)):
-    #     print x,y
-    # partition([1,2,3,4,5,6,7,8,9], 3)
     print [p for p in partition([1,2,3,4,5,6,7,8,9,10], 3)]
 
