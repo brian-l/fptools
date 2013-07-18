@@ -74,25 +74,18 @@ def tail(lst):
 Yield everything except the last element
 """
 def init(lst):
-    items = iter(lst)
-    while items:
-        n = next(items)
-        m = next(items)
-        if m:
-            yield n
-            yield m
+    prev = head(lst)
+    for item in lst:
+        pass
 
 """
 Return the last item.
 """
 def last(lst):
-    items = iter(lst)
-    while items:
-        n = next(items)
-        m = next(items)
-        if not m:
-            return n
-
+    lt = None
+    for item in lst:
+        lt = item
+    return lt
 
 
 if __name__ == '__main__':
