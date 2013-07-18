@@ -55,6 +55,37 @@ def partition(lst, size):
         else:
             break
 
+"""
+Yield the first element as a single element list or empty list
+"""
+def head(lst):
+    return next(iter(lst))
+
+"""
+Yield 2nd element and beyond
+"""
+def tail(lst):
+    items = iter(lst)
+    next(items)
+    for item in items:
+        yield item
+
+"""
+Yield everything except the last element
+"""
+def init(lst):
+    items = iter(lst)
+    while items:
+        n = next(items)
+        yield n
+
+"""
+
+"""
+def last(lst):
+    pass
+
+
 if __name__ == '__main__':
     lst1 = [1,2,3,4,5]
     lst2 = [4,5,6]
