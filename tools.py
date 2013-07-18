@@ -1,4 +1,4 @@
-from itertools import chain
+from itertools import chain, izip
 
 """
 Return the size of the shortest list in a list of lists
@@ -10,7 +10,7 @@ def shortest(lists):
 Zip n iterables into one list, calling func on the lists as a tuple
 """
 def zipWith(func, *lists):
-    for val in zip(lists):
+    for val in izip(lists):
         yield func(chain(*val))
 
 """
@@ -42,9 +42,12 @@ Partition an iterable lst into a list of lists, each of
 length 0-size
 """
 def partition(lst, size):
-    for pos in count(0, size):
-        # yield lst[pos:pos + size]
-        print pos
+    for item, pos in izip(lst, count(0, size)):
+        items = lst[pos:pos + size] 
+        if items:
+            yield items
+        else:
+            break
 
 if __name__ == '__main__':
     lst1 = [1,2,3,4,5]
@@ -53,5 +56,6 @@ if __name__ == '__main__':
 
     # for x,y in zip(xrange(100), repeat(1)):
     #     print x,y
-    print [p for p in partition([1,2,3,4,5,6,7,8,9], 3)]
+    # partition([1,2,3,4,5,6,7,8,9], 3)
+    print [p for p in partition([1,2,3,4,5,6,7,8,9,10], 3)]
 
