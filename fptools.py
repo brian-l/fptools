@@ -1,4 +1,4 @@
-from itertools import chain, izip
+from itertools import izip
 
 """
 A small module with functions based on idioms I learned
@@ -77,13 +77,22 @@ def init(lst):
     items = iter(lst)
     while items:
         n = next(items)
-        yield n
+        m = next(items)
+        if m:
+            yield n
+            yield m
 
 """
-
+Return the last item.
 """
 def last(lst):
-    pass
+    items = iter(lst)
+    while items:
+        n = next(items)
+        m = next(items)
+        if not m:
+            return n
+
 
 
 if __name__ == '__main__':
