@@ -1,5 +1,4 @@
 from itertools import chain
-from functools import partial
 
 """
 Return the size of the shortest list in a list of lists
