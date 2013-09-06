@@ -22,11 +22,11 @@ def zipWith(func, *lists):
         yield func(*val)
 
 """
-Cycle through the values of lst forever
+Cycle through the values of _list forever
 """
-def cycle(lst):
+def cycle(_list):
     while True:
-        for item in lst:
+        for item in _list:
             yield item
 
 """
@@ -46,12 +46,12 @@ def count(start=0, step=1):
         now = now + start + step
 
 """
-Partition an iterable lst into a list of lists, each of
+Partition an iterable _list into a list of lists, each of
 length 0-size
 """
-def partition(lst, size):
-    for item, pos in izip(lst, count(0, size)):
-        items = lst[pos:pos + size]
+def partition(_list, size):
+    for item, pos in izip(_list, count(0, size)):
+        items = _list[pos:pos + size]
         if items:
             yield items
         else:
@@ -60,14 +60,14 @@ def partition(lst, size):
 """
 Yield the first element as a single element list or empty list
 """
-def head(lst):
-    return next(iter(lst))
+def head(_list):
+    return next(iter(_list))
 
 """
 Yield 2nd element and beyond
 """
-def tail(lst):
-    items = iter(lst)
+def tail(_list):
+    items = iter(_list)
     next(items)
     for item in items:
         yield item
@@ -75,17 +75,15 @@ def tail(lst):
 """
 Yield everything except the last element
 """
-def init(lst):
-    prev = head(lst)
-    for item in lst:
-        pass
+def init(_list):
+    raise NotImplementedError
 
 """
 Return the last item.
 """
-def last(lst):
+def last(_list):
     lt = None
-    for item in lst:
+    for item in _list:
         lt = item
     return lt
 
@@ -105,12 +103,26 @@ Allows recursive algorithms without exceeding max recursion depth.
 def trampoline(gen, *args, **kwargs):
     func = gen(*args, **kwargs)
     while isinstance(func, types.GeneratorType):
-        func = func.next()
+        try:
+            func = func.next()
+        except StopIteration:
+            break
     return func
 
+"""
+Recursive dictionary traversal
+"""
+def traverse(root, callback):
+    callback(k, v)
+    for k, v in root.items():
+        if isinstance(v, dict):
+            yield traverse(v, callback)
+        else:
+            callback(k, v)
 
 if __name__ == '__main__':
-    lst1 = [1,2,3,4,5]
-    lst2 = [4,5,6]
-    lst3 = [7,8,9]
+    _list1 = [1,2,3,4,5]
+    _list2 = [4,5,6]
+    _list3 = [7,8,9]
+
 
