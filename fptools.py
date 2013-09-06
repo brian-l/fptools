@@ -90,6 +90,15 @@ def last(lst):
     return lt
 
 """
+Obligatory recursive fibonacci
+"""
+def fibonacci(count, _current=0, _next=1):
+    if count <= 1:
+        yield _current
+    else:
+        yield fibonacci(count - 1, _next, _current + _next)
+
+"""
 The Trampoline pattern. Takes a generator that yields itself from next()
 Allows recursive algorithms without exceeding max recursion depth.
 """
@@ -104,5 +113,4 @@ if __name__ == '__main__':
     lst1 = [1,2,3,4,5]
     lst2 = [4,5,6]
     lst3 = [7,8,9]
-
 
