@@ -1,3 +1,5 @@
+import types
+
 from itertools import izip
 
 """
@@ -87,11 +89,20 @@ def last(lst):
         lt = item
     return lt
 
+"""
+The Trampoline pattern. Takes a generator that yields itself from next()
+Allows recursive algorithms without exceeding max recursion depth.
+"""
+def trampoline(gen, *args, **kwargs):
+    func = gen(*args, **kwargs)
+    while isinstance(func, types.GeneratorType):
+        func = func.next()
+    return func
+
 
 if __name__ == '__main__':
     lst1 = [1,2,3,4,5]
     lst2 = [4,5,6]
     lst3 = [7,8,9]
 
-    print [p for p in partition([1,2,3,4,5,6,7,8,9,10], 3)]
 
