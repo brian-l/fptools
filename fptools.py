@@ -1,12 +1,6 @@
-import types
-
+from types import GeneratorType
 from itertools import izip
 
-"""
-A small module with functions based on idioms I learned
-while programming Haskell and other languages.
-
-"""
 
 """
 Return the size of the shortest list in a list of lists
@@ -97,32 +91,24 @@ def fibonacci(count, _current=0, _next=1):
         yield fibonacci(count - 1, _next, _current + _next)
 
 """
+Recursive Euclid's algorithm for finding GCD
+"""
+def gcd(a, b):
+    if b == 0:
+        yield a
+    else:
+        yield gcd(b, a % b)
+
+"""
 The Trampoline pattern. Takes a generator that yields itself from next()
 Allows recursive algorithms without exceeding max recursion depth.
 """
 def trampoline(gen, *args, **kwargs):
     func = gen(*args, **kwargs)
-    while isinstance(func, types.GeneratorType):
+    while isinstance(func, GeneratorType):
         try:
             func = func.next()
         except StopIteration:
             break
     return func
-
-"""
-Recursive dictionary traversal
-"""
-def traverse(root, callback):
-    callback(k, v)
-    for k, v in root.items():
-        if isinstance(v, dict):
-            yield traverse(v, callback)
-        else:
-            callback(k, v)
-
-if __name__ == '__main__':
-    _list1 = [1,2,3,4,5]
-    _list2 = [4,5,6]
-    _list3 = [7,8,9]
-
 
