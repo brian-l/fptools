@@ -98,9 +98,24 @@ def gcd(a, b):
     else:
         yield gcd(b, a % b)
 
-def fib(count, crnt=0, nxt=1):
-    if count <= 1:
-        yield crnt
-    else:
-        yield fib(count - 1, nxt, crnt + nxt)
+"""
+Recursive fibonacci
+"""
+def fib(num):
+    def _fib(count, crnt=0, nxt=1):
+        if count <= 1:
+            yield crnt
+        else:
+            yield _fib(count - 1, nxt, crnt + nxt)
+    return trampoline(_fib, num)
 
+"""
+Recursive factorial
+"""
+def fact(num):
+    def _fact(c, n=1):
+        if c <= 0:
+            yield n
+        else:
+            yield _fact(c - 1, n * c)
+    return trampoline(_fact, num)
