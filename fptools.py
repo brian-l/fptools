@@ -1,86 +1,118 @@
+from Queue import Queue
 from types import GeneratorType
 from itertools import izip
 
-"""
-Zip n iterables into one list, calling func on the lists as a tuple
-"""
-def zipWith(func, *lists):
+def zip_with(func, *lists):
+    """
+    Zip n iterables into one list, calling func on the lists as a tuple
+    """
     for val in izip(*lists):
         yield func(*val)
 
-"""
-Cycle through the values of lst forever
-"""
 def cycle(lst):
+    """
+    Cycle through the values of lst forever
+    """
     while True:
         for item in lst:
             yield item
 
-"""
-Repeat val forever
-"""
 def repeat(val):
+    """
+    Repeat val forever
+    """
     while True:
         yield val
 
-"""
-Count from start by step forever
-"""
 def count(start=0, step=1):
-    now = 0
+    """
+    Count from start by step forever
+    """
+    now = start
     while True:
         yield now
-        now = now + start + step
+        now = now + step
 
-"""
-Partition an iterable lst into a list of lists, each of
-length 0-size
-"""
-def partition(lst, size):
-    for item, pos in izip(lst, count(0, size)):
-        items = lst[pos:pos + size]
-        if items:
-            yield items
-        else:
-            break
+def advance(i, n):
+    """
+    Try to advance the iterator i n number of times.
+    """
+    for x in xrange(n):
+        try:
+            yield next(i)
+        except StopIteration:
+            return
 
-"""
-Yield the first element as a single element list or empty list
-"""
+def partition(itr, size):
+    """
+    Partition an iterable lst into a list of lists, each of
+    length 0-size without slicing
+    """
+    lst = iter(itr)
+    while True:
+        for x in count(step = size):
+            items = list(advance(lst, size))
+            chunk = len(items)
+            if chunk == size or chunk:
+                yield items
+            else:
+                return
+
 def head(lst):
+    """
+    Yield the first element as a single element list or empty list
+    """
     return next(iter(lst))
 
-"""
-Yield 2nd element and beyond
-"""
 def tail(lst):
+    """
+    Yield 2nd element and beyond
+    """
     items = iter(lst)
     next(items)
     for item in items:
         yield item
 
-"""
-Yield everything except the last element
-
-I haven't figured out how to do this yet
-"""
 def init(lst):
-    raise NotImplementedError
+    """
+    Yield everything except the last element
+    """
+    raise NotImplemented
+    gen = iter(lst)
+    q = Queue()
 
-"""
-Return the last item.
-"""
+    chunk = list(advance(gen, 2))
+    for c in chunk:
+        q.put(c)
+
+    while q.qsize() == 2:
+        items = list(advance(gen, 2))
+
+        if len(items):
+            yield items[0]
+            yield q.get()
+
+        try:
+            q.put(items[1])
+        except:
+            break
+
+    print q.qsize()
+
 def last(lst):
+    """
+    Return the last item.
+    """
     lt = None
     for item in lst:
         lt = item
     return lt
 
-"""
-The Trampoline pattern. Takes a generator that yields itself from next()
-Allows recursive algorithms without exceeding max recursion depth.
-"""
 def trampoline(func, *args, **kwargs):
+    """
+    The Trampoline pattern. Takes a generator that yields itself from next()
+    Allows recursive algorithms without exceeding max recursion depth.
+    """
     gen = func(*args, **kwargs)
     try:
         while isinstance(gen, GeneratorType):
@@ -89,19 +121,19 @@ def trampoline(func, *args, **kwargs):
         pass
     return gen
 
-"""
-Recursive Euclid's algorithm for finding GCD
-"""
 def gcd(a, b):
+    """
+    Recursive Euclid's algorithm for finding GCD
+    """
     if b == 0:
         yield a
     else:
         yield gcd(b, a % b)
 
-"""
-Recursive fibonacci
-"""
 def fib(num):
+    """
+    Recursive fibonacci
+    """
     def _fib(count, crnt=0, nxt=1):
         if count <= 1:
             yield crnt
@@ -109,13 +141,15 @@ def fib(num):
             yield _fib(count - 1, nxt, crnt + nxt)
     return trampoline(_fib, num)
 
-"""
-Recursive factorial
-"""
 def fact(num):
+    """
+    Recursive factorial
+    """
     def _fact(c, n=1):
         if c <= 0:
             yield n
         else:
             yield _fact(c - 1, n * c)
     return trampoline(_fact, num)
+
+
