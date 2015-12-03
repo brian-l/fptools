@@ -130,7 +130,7 @@ def gcd(a, b):
     else:
         yield gcd(b, a % b)
 
-def fib(num):
+def fibonacci(num):
     """
     Recursive fibonacci
     """
@@ -141,7 +141,7 @@ def fib(num):
             yield _fib(count - 1, nxt, crnt + nxt)
     return trampoline(_fib, num)
 
-def fact(num):
+def factorial(num):
     """
     Recursive factorial
     """
@@ -151,5 +151,4 @@ def fact(num):
         else:
             yield _fact(c - 1, n * c)
     return trampoline(_fact, num)
-
 

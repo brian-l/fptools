@@ -38,3 +38,11 @@ if __name__ == "__main__":
     # init_ = init(seq)
     # print "lazy init in %s" % seq, list(init_)
 
+    denom = trampoline(gcd, 144, 7890)
+    print "find the greatest common denominator of 144 and 7890:\n\t", denom
+
+    fnum = fibonacci(50)
+    print "find the 50th fibonacci number:\n\t", fnum
+
+    fact = factorial(20)
+    print "find the factorial of 20:\n\t", fact
