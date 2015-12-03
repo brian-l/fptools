@@ -50,13 +50,12 @@ def partition(itr, size):
     """
     lst = iter(itr)
     while True:
-        for x in count(step = size):
-            items = list(advance(lst, size))
-            chunk = len(items)
-            if chunk == size or chunk:
-                yield items
-            else:
-                return
+        items = list(advance(lst, size))
+        chunk = len(items)
+        if chunk == size or chunk:
+            yield items
+        else:
+            return
 
 def head(lst):
     """
