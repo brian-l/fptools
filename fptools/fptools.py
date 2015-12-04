@@ -135,10 +135,12 @@ def gcd(a, b):
     """
     Recursive Euclid's algorithm for finding GCD
     """
-    if b == 0:
-        yield a
-    else:
-        yield gcd(b, a % b)
+    def _gcd(a, b):
+        if b == 0:
+            yield a
+        else:
+            yield gcd(b, a % b)
+    return trampoline(_gcd, a, b)
 
 def fibonacci(num):
     """

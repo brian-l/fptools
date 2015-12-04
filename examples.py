@@ -1,6 +1,6 @@
 if __name__ == "__main__":
 
-    from fptools import *
+    from fptools.fptools import *
     from operator import add
 
     def test_finite(func, iterations = 10):
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     init_ = init(seq)
     print "lazy init in %s:\n\t" % seq, list(init_)
 
-    denom = trampoline(gcd, 144, 7890)
+    denom = gcd(144, 7890)
     print "find the greatest common denominator of 144 and 7890:\n\t", denom
 
     fnum = fibonacci(50)
