@@ -1,4 +1,4 @@
-from Queue import Queue
+from collections import deque
 from types import GeneratorType
 from itertools import izip
 
@@ -96,17 +96,17 @@ def init(lst):
     The usefulness and performance of this function can be debated.
     """
     gen = iter(lst)
-    q = Queue()
+    q = deque()
 
     while True:
         try:
             nxt = next(gen)
-            q.put(nxt)
-            if q.qsize() > 2:
-                yield q.get()
+            q.append(nxt)
+            if len(q) > 2:
+                yield q.popleft()
         except StopIteration:
-            if q.qsize() > 1:
-                yield q.get()
+            if len(q) > 1:
+                yield q.popleft()
             return
 
 def last(lst):
