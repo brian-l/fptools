@@ -90,28 +90,24 @@ def tail(lst):
 
 def init(lst):
     """
-    Yield everything except the last element
+    Yield everything except the last element.
+
+    While this can be done without slicing, it still requires full iteration of the sequence.
+    The usefulness and performance of this function can be debated.
     """
     gen = iter(lst)
     q = Queue()
 
-    chunk = list(advance(gen, 2))
-    for c in chunk:
-        q.put(c)
-
-    while q.qsize() == 2:
-        items = list(advance(gen, 2))
-
-        if len(items):
-            yield items[0]
-            yield q.get()
-
+    while True:
         try:
-            q.put(items[1])
-        except:
-            break
-
-    print q.qsize()
+            nxt = next(gen)
+            q.put(nxt)
+            if q.qsize() > 2:
+                yield q.get()
+        except StopIteration:
+            if q.qsize() > 1:
+                yield q.get()
+            return
 
 def last(lst):
     """

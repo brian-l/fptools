@@ -42,8 +42,8 @@ if __name__ == "__main__":
     tail_ = tail(seq)
     print "lazy tail in %s:\n\t" % seq, list(tail_)
 
-    # init_ = init(seq)
-    # print "lazy init in %s" % seq, list(init_)
+    init_ = init(seq)
+    print "lazy init in %s:\n\t" % seq, list(init_)
 
     denom = trampoline(gcd, 144, 7890)
     print "find the greatest common denominator of 144 and 7890:\n\t", denom
