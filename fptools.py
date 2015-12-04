@@ -24,6 +24,13 @@ def repeat(val):
     while True:
         yield val
 
+def repeat_fn(func, *args, **kwargs):
+    """
+    Repeat func() forever with optional arguments.
+    """
+    while True:
+        yield func(*args, **kwargs)
+
 def count(start=0, step=1):
     """
     Count from start by step forever
@@ -33,7 +40,7 @@ def count(start=0, step=1):
         yield now
         now = now + step
 
-def advance(i, n):
+def advance(i, n=1):
     """
     Try to advance the iterator i n number of times.
     """
@@ -46,7 +53,8 @@ def advance(i, n):
 def partition(itr, size):
     """
     Partition an iterable lst into a list of lists, each of
-    length 0-size without slicing
+    length 0-size without slicing,
+    to support generators which can't be sliced.
     """
     lst = iter(itr)
     while True:
@@ -56,6 +64,14 @@ def partition(itr, size):
             yield items
         else:
             return
+
+def unzip(*lists):
+    """
+    Reverse of izip.
+
+    zip is its own inverse :)
+    """
+    return izip(*lists)
 
 def head(lst):
     """
@@ -76,7 +92,6 @@ def init(lst):
     """
     Yield everything except the last element
     """
-    raise NotImplemented
     gen = iter(lst)
     q = Queue()
 

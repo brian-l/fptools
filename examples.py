@@ -12,6 +12,10 @@ if __name__ == "__main__":
     repeating = repeat(5)
     print "repeat 5 ten times:\n\t", test_finite(repeating)
 
+    r = iter(xrange(1, 100))
+    repeating = repeat_fn(r.next)
+    print "repeat a function ten times:\n\t", test_finite(repeating)
+
     seq = range(5)
 
     cycles = cycle(seq)
@@ -25,6 +29,9 @@ if __name__ == "__main__":
     to_part = range(8)
     parted = partition(to_part, 3)
     print "partitioning %s into chunks of 3:\n\t" % to_part, list(parted)
+
+    unzipped = zip(range(10, 15), range(5, 0, -1))
+    print "unzipping %s:\n\t" % unzipped, list(unzip(*unzipped))
 
     first = head(seq)
     print "lazy first item in %s:\n\t" % seq, first
