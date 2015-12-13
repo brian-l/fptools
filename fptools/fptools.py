@@ -2,10 +2,10 @@ from collections import deque
 from types import GeneratorType
 try:
     from itertools import izip
-    _range = xrange
     _zip = izip
+    _range = xrange
 except ImportError:
-    # python 3, zip is lazy by default
+    # python 3, zip and range are "lazy" by default
     _zip = zip
     _range = range
 
@@ -127,7 +127,10 @@ def last(lst):
 def trampoline(func, *args, **kwargs):
     """
     The Trampoline pattern. Takes a generator that yields itself from next()
-    Allows recursive algorithms without exceeding max recursion depth.
+    which allows some recursive algorithms without exceeding max recursion depth.
+
+    The recursive function must only yield in two places;
+    the first must be the base case, the second must be the recursive step.
     """
     gen = func(*args, **kwargs)
     try:
