@@ -1,12 +1,19 @@
 from collections import deque
 from types import GeneratorType
-from itertools import izip
+try:
+    from itertools import izip
+    _range = xrange
+    _zip = izip
+except ImportError:
+    # python 3, zip is lazy by default
+    _zip = zip
+    _range = range
 
 def zip_with(func, *lists):
     """
     Zip n iterables into one list, calling func on the lists as a tuple
     """
-    for val in izip(*lists):
+    for val in _zip(*lists):
         yield func(*val)
 
 def cycle(lst):
@@ -14,7 +21,7 @@ def cycle(lst):
     Cycle through the values of lst forever
     """
     while True:
-        for item in lst:
+        for item in iter(lst):
             yield item
 
 def repeat(val):
@@ -44,7 +51,7 @@ def advance(i, n=1):
     """
     Try to advance the iterator i n number of times.
     """
-    for x in xrange(n):
+    for x in _range(n):
         try:
             yield next(i)
         except StopIteration:
@@ -71,7 +78,7 @@ def unzip(*lists):
 
     zip is its own inverse :)
     """
-    return izip(*lists)
+    return _zip(*lists)
 
 def head(lst):
     """
@@ -100,8 +107,7 @@ def init(lst):
 
     while True:
         try:
-            nxt = next(gen)
-            q.append(nxt)
+            q.append(next(gen))
             if len(q) > 2:
                 yield q.popleft()
         except StopIteration:
@@ -114,7 +120,7 @@ def last(lst):
     Return the last item.
     """
     lt = None
-    for item in lst:
+    for item in iter(lst):
         lt = item
     return lt
 
@@ -126,7 +132,7 @@ def trampoline(func, *args, **kwargs):
     gen = func(*args, **kwargs)
     try:
         while isinstance(gen, GeneratorType):
-            gen = gen.next()
+            gen = next(gen)
     except StopIteration:
         pass
     return gen
